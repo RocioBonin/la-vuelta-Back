@@ -1,35 +1,46 @@
-/* import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsEmail, IsNotEmpty, IsString } from 'class-validator'; */
+import { ApiProperty } from "@nestjs/swagger";
+import { IsArray, IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class SendEmailDto {
-  /* @ApiProperty({
-    type: [String], // Simplified type declaration for Swagger
-    title: 'Recipients',
-    description: 'List of email addresses to send the email to',
+  @ApiProperty({
+    type: String,
+    title: 'Remitente',
+    description: 'Dirección de correo electrónico del remitente del mensaje',
+    example: 'notificaciones@logistica.com',
+  })
+  @IsString()
+  @IsEmail()
+  @IsOptional()
+  from?: string;
+
+  @ApiProperty({
+    type: [String], 
+    title: 'Destinatarios',
+    description: 'Lista de direcciones de correo electrónico de los destinatarios del mensaje',
     example: ['user1@example.com', 'user2@example.com'],
   })
-  @IsArray() // Ensures the field is an array
-  @IsEmail({}, { each: true }) // Validates each string in the array is an email
-  @IsNotEmpty() */
-  to: string[];
+  @IsArray()
+  @IsEmail({}, { each: true })
+  @IsOptional()
+  to?: string[];
 
-  /* @ApiProperty({
+  @ApiProperty({
     type: String,
-    title: 'Subject',
-    description: 'Subject of the email',
-    example: 'Apertura de nuevos cursos.',
+    title: 'Asunto',
+    description: 'Asunto descriptivo del mail',
+    example: 'Notificación acerca de cambios en precios',
   })
   @IsString()
-  @IsNotEmpty() */
+  @IsNotEmpty()
   subject: string;
 
-  /* @ApiProperty({
+  @ApiProperty({
     type: String,
-    title: 'Message',
-    description: 'Content of the email',
-    example: 'Te presentamos nuestros nuevos cursos.',
+    title: 'Mensaje',
+    description: 'Contenido del mail',
+    example: 'Tenemos nuevos precios',
   })
   @IsString()
-  @IsNotEmpty() */
+  @IsNotEmpty()
   message: string;
 }

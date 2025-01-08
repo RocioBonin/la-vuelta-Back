@@ -14,7 +14,7 @@ export class EmailService {
             text: message,
         })
 
-        return 'Email sent successfully.';
+        return 'Correo electrónico enviado exitosamente.';
     }
 
     async sendWelcomeEmail(sendEmailDto: SendEmailDto): Promise<void> {
@@ -25,4 +25,16 @@ export class EmailService {
           html: message,
         });
       }
+
+      async formContact(sendEmailDto: SendEmailDto) {
+        const { from, subject, message } = sendEmailDto;
+        await this.mailerService.sendMail({
+          from: from,
+          to: 'La Vuelta Logistica <codigototaldevs@gmail.com>',
+          subject: subject,
+          html: message,
+        });
+
+        return "Mensaje enviado con éxito"  
+    }
 }
