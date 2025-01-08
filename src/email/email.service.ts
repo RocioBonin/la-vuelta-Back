@@ -1,6 +1,7 @@
 import { MailerService } from "@nestjs-modules/mailer";
 import { Injectable } from "@nestjs/common";
 import { SendEmailDto } from "./dto/send-email.dto";
+import { formContactDto } from "./dto/form-contact.dto";
 
 @Injectable()
 export class EmailService {
@@ -26,8 +27,8 @@ export class EmailService {
         });
       }
 
-      async formContact(sendEmailDto: SendEmailDto) {
-        const { from, subject, message } = sendEmailDto;
+      async formContact(formContactDto: formContactDto) {
+        const { from, subject, message } = formContactDto;
         await this.mailerService.sendMail({
           from: from,
           to: 'La Vuelta Logistica <codigototaldevs@gmail.com>',

@@ -5,6 +5,7 @@ import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
 import { EmailService } from "src/email/email.service";
 import { emailHtml } from "src/email/templates/email-welcome";
+import { SubscribeUserDto } from "src/email/dto/suscription-user.dto";
 
 @Injectable()
 export class UserService {
@@ -29,9 +30,12 @@ export class UserService {
         return await this.userRepository.find();
     }
 
-    async suscribeUser(email: string) {
+    async suscribeUser(emailDto: SubscribeUserDto) {
+
+        const {email} = emailDto;
+
         const suscribedUser = await this.userRepository.findOne({
-            where:{email: email}
+            where:{ email }
         })
 
         if(!suscribedUser) {

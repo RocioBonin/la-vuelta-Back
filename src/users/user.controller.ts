@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UserService } from "./user.service";
 import { ApiTags } from "@nestjs/swagger";
+import { SubscribeUserDto } from "src/email/dto/suscription-user.dto";
 
 @ApiTags('Users')
 @Controller('users')
@@ -19,7 +20,7 @@ export class UserController {
     }
 
     @Post('suscribe')
-    suscribeUser( @Body() body: { email: string } ){
-        return this.usersService.suscribeUser(body.email)
+    suscribeUser( @Body() email: SubscribeUserDto ){
+        return this.usersService.suscribeUser(email)
     }
 }
