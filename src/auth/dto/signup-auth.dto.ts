@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDateString, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches, MinLength } from "class-validator";
+import { IsDateString, IsEmail, IsNotEmpty, IsNumber, IsString, Length, Matches } from "class-validator";
 
 export class SignupAuthDto {
     @ApiProperty({
@@ -91,27 +91,6 @@ export class SignupAuthDto {
     @IsNumber()
     @IsNotEmpty()
     phone: number;
-
-    @ApiProperty({
-        required: false,
-        default:
-          'https://thumbs.dreamstime.com/b/vector-de-perfil-avatar-predeterminado-foto-usuario-medios-sociales-icono-183042379.jpg',
-        description: 'Imagen de perfil del usuario',
-      })
-      @IsString()
-      @IsOptional()
-    photo?: string;
-
-     @ApiProperty({
-        type: Boolean,
-        required: false,
-        description: 'Indica si el usuario esta suscripto al newsletter',
-        default: false,
-        example: false,
-      })
-    @IsBoolean()
-    @IsOptional()
-    newsletter?: boolean;
 
     @ApiProperty({
         required: true,

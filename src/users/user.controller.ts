@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
-import { CreateUserDto } from "./dto/create-user.dto";
+import { Body, Controller, Get, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { SubscribeUserDto } from "src/email/dto/suscription-user.dto";
 
 @ApiTags('Users')
@@ -9,17 +8,16 @@ import { SubscribeUserDto } from "src/email/dto/suscription-user.dto";
 export class UserController {
     constructor(private usersService: UserService) {}
 
-    @Post('create')
-    createUser(@Body() createUserDto: CreateUserDto) {
-        return this.usersService.createUser(createUserDto)
-    }
-
+    @ApiOperation({ summary: 'Obtiene todos los usuarios' })
     @Get() 
+    @HttpCode(HttpStatus.OK)
     getAllUsers() {
         return this.usersService.getAllUsers();
     }
 
+    @ApiOperation({ summary: 'Suscribe un usuario al newsletter' })
     @Post('suscribe')
+    @HttpCode(HttpStatus.CREATED)
     suscribeUser( @Body() email: SubscribeUserDto ){
         return this.usersService.suscribeUser(email)
     }

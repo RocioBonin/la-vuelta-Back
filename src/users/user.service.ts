@@ -1,11 +1,11 @@
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
-import { CreateUserDto } from "./dto/create-user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
 import { EmailService } from "src/email/email.service";
 import { emailHtml } from "src/email/templates/email-welcome";
 import { SubscribeUserDto } from "src/email/dto/suscription-user.dto";
+import { SignupAuthDto } from "src/auth/dto/signup-auth.dto";
 
 @Injectable()
 export class UserService {
@@ -15,15 +15,35 @@ export class UserService {
         private emailService: EmailService,
     ) {}
 
-    async createUser(createUserDto: CreateUserDto) {
-        const emailExisting = await this.findEmail(createUserDto.email)
+    async createUser(signUpUserDto: SignupAuthDto) {
+        const { name, surname, email, password, idNumber, location, phone, birthdate} = signUpUserDto
+        const emailExisting = await this.findEmail(email)
 
         if(emailExisting) {
             throw new ConflictException('Email ya existente')
         }
+
+        const idNumberExisting = await this.userRepository.findOne({
+            where: {idNumber}
+        })
+
+        if(idNumberExisting) {
+            throw new ConflictException('El documento de identidad ya esta registrado')
+        }
         
-        const user = this.userRepository.create(createUserDto)
-        return await this.userRepository.save(user)
+        const user = new User();
+        user.name = name;
+        user.surname = surname;
+        user.email = email;
+        user.password = password;
+        user.idNumber = idNumber;
+        user.location = location;
+        user.phone = phone;
+        user.birthdate = birthdate;
+        user.newsletter = true;
+
+        await this.userRepository.save(user);
+        return user;
     }
 
     async getAllUsers() {

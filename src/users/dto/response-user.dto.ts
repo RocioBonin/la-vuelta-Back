@@ -44,7 +44,7 @@ export class UserResponseDto {
         description: 'Localidad del usuario',
         example: 'Argentina',
       })
-    location?: string;
+    location: string;
 
     @ApiProperty({
         type: Number,
@@ -54,12 +54,7 @@ export class UserResponseDto {
     phone: number;
 
     @ApiProperty({
-        type: String,
-        description: 'Imagen de perfil del usuario en formato cadena de texto',
-      })
-    photo?: string;
-
-    @ApiProperty({
+      type: Date,
         description: 'Fecha de nacimiento del usuario',
         example: '2025-01-03',
       })
@@ -75,7 +70,7 @@ export class UserResponseDto {
     newsletter: boolean;
 
     constructor(partial: Partial<UserResponseDto>) {
-        const { id, name, surname, email, idNumber, location, phone, photo, birthdate, newsletter , role} = partial;
+        const { id, name, surname, email, idNumber, location, phone, birthdate, newsletter , role } = partial;
 
         this.id = id;
         this.name = name;
@@ -84,7 +79,6 @@ export class UserResponseDto {
         this.idNumber = idNumber;
         this.location = location;
         this.phone = phone;
-        this.photo = photo;
         this.birthdate = birthdate;
         this.newsletter = newsletter;
         this.role = role;
